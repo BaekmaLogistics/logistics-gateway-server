@@ -32,6 +32,7 @@ dependencies {
     // implementation 'org.springframework.boot:spring-boot-starter-web'
     // implementation 'org.springframework.cloud:spring-cloud-starter-gateway' // Deprecated
 
+    // Reactive Web Engine & Gateway Core (LoadBalancer 포함됨)
     implementation 'org.springframework.boot:spring-boot-starter-webflux'
     implementation 'org.springframework.cloud:spring-cloud-gateway-server-webflux'
 
