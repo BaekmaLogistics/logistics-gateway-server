@@ -6,7 +6,6 @@ import com.sparta.gateway.code.ErrorResponseCode;
 import com.sparta.gateway.util.JwtUtil;
 import io.jsonwebtoken.Claims;
 import lombok.Getter;
-import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cloud.gateway.filter.GatewayFilter;
@@ -27,11 +26,15 @@ import java.util.Map;
 
 @Slf4j
 @Component
-@RequiredArgsConstructor
 public class JwtAuthenticationFilter extends AbstractGatewayFilterFactory<JwtAuthenticationFilter.Config> {
 
     private final JwtUtil jwtUtil;
     private final ObjectMapper objectMapper = new ObjectMapper();
+
+    public JwtAuthenticationFilter(JwtUtil jwtUtil) {
+        super(Config.class);
+        this.jwtUtil = jwtUtil;
+    }
 
     @Override
     public GatewayFilter apply(Config config) {
