@@ -12,47 +12,33 @@ spring:
             locator:
               enabled: false
           routes:
-            - id: auth-service
-              uri: lb://auth-service
-              predicates:
-                - Path=/api/v1/auth/**
-                - Path=/api/v1/delivery-managers/**
-
             - id: notification-service
               uri: lb://notification-service
               predicates:
                 - Path=/api/v1/slack-messages/**
-              filters:
-                - JwtAuthenticationFilter
 
             - id: user-service
               uri: lb://user-service
               predicates:
+                - Path=/api/v1/auth/**
                 - Path=/api/v1/users/**
-              filters:
-                - JwtAuthenticationFilter
+                - Path=/api/v1/delivery-managers/**
 
             - id: delivery-service
               uri: lb://delivery-service
               predicates:
                 - Path=/api/v1/deliveries/**
-              filters:
-                - JwtAuthenticationFilter
 
             - id: company-service
               uri: lb://company-service
               predicates:
                 - Path=/api/v1/companies/**
                 - Path=/api/v1/products/**
-              filters:
-                - JwtAuthenticationFilter
 
             - id: order-service
               uri: lb://order-service
               predicates:
                 - Path=/api/v1/orders/**
-              filters:
-                - JwtAuthenticationFilter
 
             - id: hubs-service
               uri: lb://hubs-service
@@ -60,17 +46,15 @@ spring:
                 - Path=/api/v1/hubs/**
                 - Path=/api/v1/hub-routes/**
                 - Path=/api/v1/hub-inventories/**
-              filters:
-                - JwtAuthenticationFilter
 
 server:
   port: 18080
 
 jwt:
   secret:
-    key: ${JWT_SECRET_KEY}
+    key: your-256-bit-secret-key-for-logistics-system-jwt-authentication-must-be-long
 
 eureka:
   client:
     service-url:
-      defaultZone: ${EUREKA_SERVER_URL}
+      defaultZone: http://localhost:8761/eureka/
