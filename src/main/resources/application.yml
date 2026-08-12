@@ -139,6 +139,21 @@ spring:
               filters:
                 # /zipkin 혹은 /zipkin/ui 로 들어오는 요청을 Zipkin 내부 경로로 연결
                 - RewritePath=/zipkin(?<segment>/?.*), /zipkin$\{segment}
+          globalcors:
+            cors-configurations:
+              '[/**]':
+                allowedOriginPatterns:
+                  - "*"
+                allowedMethods:
+                  - GET
+                  - POST
+                  - PUT
+                  - DELETE
+                  - OPTIONS
+                  - PATCH
+                allowedHeaders: "*"
+                allowCredentials: true
+                maxAge: 3600
 springdoc:
   swagger-ui:
     path: /api/api-docs
