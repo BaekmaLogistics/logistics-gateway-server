@@ -21,6 +21,8 @@ public class JwtUtil {
     private final SecretKey secretKey;
 
     public JwtUtil(@Value("${jwt.secret.key}") String secret) {
+        log.info(">>> GATEWAY SECRET KEY LENGTH: {}", secret.length());
+        log.info(">>> GATEWAY SECRET KEY START: {}", secret.substring(0, 10));
         this.secretKey = Keys.hmacShaKeyFor(secret.getBytes(StandardCharsets.UTF_8));
     }
 
