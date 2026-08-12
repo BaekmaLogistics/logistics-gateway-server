@@ -19,12 +19,60 @@ spring:
             locator:
               enabled: false
           routes:
+            - id: auth-swagger
+              uri: lb://auth-service
+              predicates:
+                - Path=/auth-service/api/api-spec
+              filters:
+                - SetPath=/api/api-spec
+
+            - id: notification-swagger
+              uri: lb://notification-service
+              predicates:
+                - Path=/notification-service/api/api-spec
+              filters:
+                - SetPath=/api/api-spec
+
+            - id: user-swagger
+              uri: lb://user-service
+              predicates:
+                - Path=/user-service/api/api-spec
+              filters:
+                - SetPath=/api/api-spec
+
+            - id: delivery-swagger
+              uri: lb://delivery-service
+              predicates:
+                - Path=/delivery-service/api/api-spec
+              filters:
+                - SetPath=/api/api-spec
+
+            - id: company-product-swagger
+              uri: lb://company-product-service
+              predicates:
+                - Path=/company-product-service/api/api-spec
+              filters:
+                - SetPath=/api/api-spec
+
+            - id: order-swagger
+              uri: lb://order-service
+              predicates:
+                - Path=/order-service/api/api-spec
+              filters:
+                - SetPath=/api/api-spec
+
+            - id: hub-swagger
+              uri: lb://hub-service
+              predicates:
+                - Path=/hub-service/api/api-spec
+              filters:
+                - SetPath=/api/api-spec
+            #Domain Service 라우팅
             - id: auth-service
               uri: lb://auth-service
               predicates:
                 - Path=/api/v1/auth/**
                 - Path=/api/v1/delivery-managers/**
-
             - id: notification-service
               uri: lb://notification-service
               predicates:
@@ -91,16 +139,25 @@ spring:
               filters:
                 # /zipkin 혹은 /zipkin/ui 로 들어오는 요청을 Zipkin 내부 경로로 연결
                 - RewritePath=/zipkin(?<segment>/?.*), /zipkin$\{segment}
-            # 모든 Service에 대한 Swagger UI
-            - id: openapi-docs-route
-              uri: lb://
-              predicates:
-                - Path=/v3/api-docs/{service}
-              filters:
-                - SetPath=/api/api-spec
 springdoc:
   swagger-ui:
-    path: /api/api-docs # Gateway에서 접속할 Swagger UI 주소
+    path: /api/api-docs
+    urls-primary-name: notification-service
+    urls:
+      - name: notification-service
+        url: /notification-service/api/api-spec
+      - name: auth-service
+        url: /auth-service/api/api-spec
+      - name: user-service
+        url: /user-service/api/api-spec
+      - name: delivery-service
+        url: /delivery-service/api/api-spec
+      - name: company-product-service
+        url: /company-product-service/api/api-spec
+      - name: order-service
+        url: /order-service/api/api-spec
+      - name: hub-service
+        url: /hub-service/api/api-spec
 
 server:
   port: 18080
