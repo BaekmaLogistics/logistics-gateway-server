@@ -46,8 +46,8 @@ spring:
               filters:
                 - JwtAuthenticationFilter
 
-            - id: company-service
-              uri: lb://company-service
+            - id: company-product-service
+              uri: lb://company-product-service
               predicates:
                 - Path=/api/v1/companies/**
                 - Path=/api/v1/products/**
@@ -91,6 +91,17 @@ spring:
               filters:
                 # /zipkin 혹은 /zipkin/ui 로 들어오는 요청을 Zipkin 내부 경로로 연결
                 - RewritePath=/zipkin(?<segment>/?.*), /zipkin$\{segment}
+            # 모든 Service에 대한 Swagger UI
+            - id: openapi-docs-route
+              uri: lb://
+              predicates:
+                - Path=/v3/api-docs/{service}
+              filters:
+                - SetPath=/api/api-spec
+springdoc:
+  swagger-ui:
+    path: /api/api-docs # Gateway에서 접속할 Swagger UI 주소
+
 server:
   port: 18080
 
