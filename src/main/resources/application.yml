@@ -46,8 +46,8 @@ spring:
               filters:
                 - JwtAuthenticationFilter
 
-            - id: company-service
-              uri: lb://company-service
+            - id: company-product-service
+              uri: lb://company-product-service
               predicates:
                 - Path=/api/v1/companies/**
                 - Path=/api/v1/products/**
